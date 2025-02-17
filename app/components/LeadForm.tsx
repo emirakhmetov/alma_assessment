@@ -14,7 +14,7 @@ const formSchema = z.object({
   email: z.string().email("Invalid email address"),
   linkedin: z.string().url("Invalid LinkedIn URL").optional(),
   visaCategories: z.array(z.string()).min(1, "At least one visa category is required"),
-  country: z.string().min(1, "Country of Citizenship is required"),
+  country: z.string().optional(),
   resume: z.any().optional(),
   message: z.string().optional(),
 });
@@ -111,7 +111,7 @@ export default function LeadForm() {
           <h1>How can we help you?</h1>
           <textarea {...register("message")} className="border p-2 w-full rounded" rows={3}></textarea>
         </div>
-        <button type="submit" disabled={isSubmitting} className="w-full bg-black text-white py-2 rounded transition disabled:opacity-50 font-bold">
+        <button type="submit" disabled={isSubmitting} className="w-full bg-black text-white py-2 rounded hover:bg-blue-600 transition disabled:opacity-50 font-bold">
           {isSubmitting ? "Submitting..." : "Submit"}
         </button>
       </form>
