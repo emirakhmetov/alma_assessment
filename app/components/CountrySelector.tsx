@@ -1,40 +1,49 @@
-"use-client"
+"use client";
 
-import React, { useState, useMemo } from 'react'
-import { Control, Controller } from 'react-hook-form';
-import Select from 'react-select'
-import countryList from 'react-select-country-list'
+import React, { useMemo } from "react";
+import { Control, Controller } from "react-hook-form";
+import Select from "react-select";
+import { COUNTRY_MAP } from "../data/countryCodes";
 
 interface CountrySelectorProps {
-    name: string,
-    control: Control<any>;
+  name: string;
+  control: Control<any>;
+  label?: string;
 }
-function CountrySelector({name, control}:CountrySelectorProps) {
-  const options = useMemo(() => countryList().getData(), []);
 
+export default function CountrySelector({ name, control, label }: CountrySelectorProps) {
+  const options = useMemo(
+    () =>
+      Object.entries(COUNTRY_MAP).map(([code, countryName]) => ({
+        value: code,
+        label: countryName,
+      })),
+    []
+  );
 
   return (
-  <Controller
-  name={name}
-  control={control}
-  render={({ field, fieldState }) => {
-    const selectedOption = options.find(opt => opt.value === field.value);
-    return (
-      <>
-        <Select
-          options={options}
-          value={selectedOption}
-          onChange={(option) => field.onChange(option?.value || "")}
-          placeholder = "Country Of Citizenship"
-        />
-        {fieldState.error && (
-          <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>
-        )}
-      </>
-    );
-  }}
-/>
-  )
+    <div>
+      {label && <label className="block font-medium mb-1">{label}</label>}
+      <Controller
+        name={name}
+        control={control}
+        render={({ field, fieldState }) => {
+          const selectedOption = options.find((opt) => opt.value === field.value);
+          return (
+            <>
+              <Select
+                options={options}
+                value={selectedOption}
+                onChange={(option) => field.onChange(option?.value || "")}
+                placeholder="Country of Citizenship"
+              />
+              {fieldState.error && (
+                <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>
+              )}
+            </>
+          );
+        }}
+      />
+    </div>
+  );
 }
-
-export default CountrySelector
