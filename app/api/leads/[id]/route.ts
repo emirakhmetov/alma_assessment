@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { leads } from "../../../data/leads";
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }) {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const leadId = Number(params.id);
+    const { id } = await params;
+    const leadId = Number(id);
     const body = await req.json();
     const lead = leads.find((l) => l.id === leadId);
     if (!lead) {

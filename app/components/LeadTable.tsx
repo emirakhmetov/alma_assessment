@@ -15,13 +15,12 @@ interface Lead {
   resume: { name: string; type: string; content: string } | null;
 }
 
-export default function AdminPage() {
+export default function LeadTable() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const leadsPerPage = 10;
-  const router = useRouter();
 
   async function fetchLeads() {
     try {
@@ -86,7 +85,7 @@ export default function AdminPage() {
           </ul>
         </nav>
       </aside>
-      <main className="flex-1 p-8">
+      <main className="flex-1 p-8 flex-col min-h-screen justify-between">
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold">Leads</h1>
           <div className="flex gap-4">
@@ -158,7 +157,7 @@ export default function AdminPage() {
             </tbody>
           </table>
         </div>
-        <div className="flex justify-end mt-4 items-center gap-4">
+        <div className="flex justify-end mt-4 items-center gap-4 ">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}

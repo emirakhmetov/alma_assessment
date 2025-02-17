@@ -1,1 +1,3 @@
-export let leads: Array<Record<string, any>> = [];
+export const leads: Array<Record<string, any>> = [
+  ];
+  
