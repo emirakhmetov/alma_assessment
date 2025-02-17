@@ -1,10 +1,9 @@
-// app/admin/page.tsx
 "use client";
 
 import React from "react";
 import LeadTable from "../components/LeadTable";
 import Link from "next/link";
-import { useAuth } from "../context/AuthContext"; // adjust path as needed
+import { useAuth } from "../context/AuthContext";
 
 export default function AdminPage() {
   const { isAuthenticated } = useAuth();

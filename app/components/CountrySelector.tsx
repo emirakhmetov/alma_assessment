@@ -12,7 +12,7 @@ interface CountrySelectorProps {
 }
 
 export default function CountrySelector({ name, control, label }: CountrySelectorProps) {
-const Select = dynamic(() => import("react-select"), { ssr: false })
+  const Select = dynamic(() => import("react-select"), { ssr: false });
   const options = useMemo(
     () =>
       Object.entries(COUNTRY_MAP).map(([code, countryName]) => ({
@@ -21,7 +21,6 @@ const Select = dynamic(() => import("react-select"), { ssr: false })
       })),
     []
   );
-
   return (
     <div>
       {label && <label className="block font-medium mb-1">{label}</label>}
