@@ -2,8 +2,8 @@
 
 import React, { useMemo } from "react";
 import { Control, Controller } from "react-hook-form";
-import Select from "react-select";
 import { COUNTRY_MAP } from "../data/countryCodes";
+import dynamic from "next/dynamic";
 
 interface CountrySelectorProps {
   name: string;
@@ -12,6 +12,7 @@ interface CountrySelectorProps {
 }
 
 export default function CountrySelector({ name, control, label }: CountrySelectorProps) {
+const Select = dynamic(() => import("react-select"), { ssr: false })
   const options = useMemo(
     () =>
       Object.entries(COUNTRY_MAP).map(([code, countryName]) => ({
