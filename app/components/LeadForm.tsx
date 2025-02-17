@@ -61,12 +61,6 @@ export default function LeadForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 p-6 rounded-lg w-full max-w-lg">
-      <div className="flex flex-col items-center text-center gap-y-2">
-        <h1>Want to understand your visa options?</h1>
-        <p>
-          Submit the form below and our team of experienced attorneys will review your information and send a preliminary assessment of your case based on your goals
-        </p>
-      </div>
       <div>
         <input {...register("firstName")} className="border p-2 w-full rounded" placeholder="First Name" />
         {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName.message}</p>}
