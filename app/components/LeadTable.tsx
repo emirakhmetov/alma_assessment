@@ -22,14 +22,18 @@ export default function LeadTable() {
   const [error, setError] = useState<string | null>(null);
 
   const fetchLeads = async () => {
+    console.log("Fetching leads");
     try {
       const res = await fetch("/api/leads");
+      console.log("Fetch response status:", res.status);
       if (!res.ok) {
         throw new Error("Failed to fetch leads");
       }
       const data = await res.json();
+      console.log("Leads data received:", data);
       setLeads(data);
     } catch (err: any) {
+      console.error("Error in fetchLeads:", err);
       setError(err.message || "Something went wrong");
     } finally {
       setIsLoading(false);
@@ -41,24 +45,24 @@ export default function LeadTable() {
   }, []);
 
   const handleStatusChange = async (id: number, newStatus: string) => {
+    console.log("Updating lead", id, "to status", newStatus);
     try {
       const res = await fetch(`/api/leads/${id}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
+      console.log("Update response status:", res.status);
       if (!res.ok) {
         throw new Error("Failed to update status");
       }
-      // Update local state after successful update
       const updatedLead = await res.json();
+      console.log("Updated lead:", updatedLead);
       setLeads((prev) =>
         prev.map((lead) => (lead.id === id ? updatedLead : lead))
       );
     } catch (err) {
-      console.error(err);
+      console.error("Error in handleStatusChange:", err);
     }
   };
 
@@ -96,12 +100,8 @@ export default function LeadTable() {
               </td>
               <td className="px-4 py-2 border">{lead.email}</td>
               <td className="px-4 py-2 border">{lead.linkedin || "-"}</td>
-              <td className="px-4 py-2 border">
-                {lead.visaCategories.join(", ")}
-              </td>
-              <td className="px-4 py-2 border">
-                {getCountryLabel(lead.countryOfCitizenship)}
-              </td>
+              <td className="px-4 py-2 border">{lead.visaCategories.join(", ")}</td>
+              <td className="px-4 py-2 border">{getCountryLabel(lead.countryOfCitizenship)}</td>
               <td className="px-4 py-2 border">{lead.message || "-"}</td>
               <td className="px-4 py-2 border">{lead.status}</td>
               <td className="px-4 py-2 border">
