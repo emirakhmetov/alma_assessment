@@ -1,20 +1,23 @@
 "use client";
 
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
-  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (username === "admin" && password === "password") {
-      login();
+    const result = await signIn("credentials", {
+      redirect: false,
+      username,
+      password,
+    });
+    if (result?.ok) {
       router.push("/admin");
     } else {
       setError("Invalid credentials");
