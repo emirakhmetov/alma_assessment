@@ -13,6 +13,7 @@ const formSchema = z.object({
   linkedin: z.string().url("Invalid LinkedIn URL").optional(),
   visaCategories: z.array(z.string()).min(1, "At least one visa category is required"),
   country:z.string().min(1, "Country of Citizenship is required"),
+  resume: z.any().optional(), 
   message: z.string().optional(),
 });
 
@@ -32,12 +33,24 @@ export default function LeadForm() {
   const [success, setSuccess] = useState<string | null>(null);
 
   const onSubmit = async (data: FormData) => {
-    console.log(data)
+
     try {
+        const { resume, ...otherData } = data;
+        const formData = new FormData();
+    Object.entries(otherData).forEach(([key, value]) => {
+  if (Array.isArray(value)) {
+    value.forEach((item) => formData.append(key, item));
+  } else {
+    formData.append(key, value);
+  }
+});
+if (resume && resume.length > 0) {
+    formData.append("resume", resume[0]);
+  }
+
       const response = await fetch("/api/leads", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: formData,
       });
 
       if (!response.ok) throw new Error("Failed to submit");
@@ -76,7 +89,16 @@ export default function LeadForm() {
         <input {...register("linkedin")} type="url" className="border p-2 w-full rounded" placeholder="LinkedIn / Personal Website URL"/>
         {errors.linkedin && <p className="text-red-500 text-sm">{errors.linkedin.message}</p>}
       </div>
-
+      <div>
+        <label className="block font-medium" htmlFor="resume">Upload Resume (Optional)</label>
+        <input
+          {...register("resume")}
+          type="file"
+          id="resume"
+          className="border p-2 w-full rounded"
+          accept=".pdf,.doc,.docx"
+        />
+      </div>
       <div>
         <p className="block font-medium text-center">Visa Categories of Interest?</p>
         <div className="flex flex-col gap-2 mt-2">
@@ -126,7 +148,7 @@ export default function LeadForm() {
             <h1>How can we help you?</h1>
         <textarea {...register("message")} className="border p-2 w-full rounded" rows={3}></textarea>
       </div>
-
+     
       <button
         type="submit"
         disabled={isSubmitting}

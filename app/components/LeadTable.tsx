@@ -13,6 +13,7 @@ interface Lead {
   country: string;
   message?: string;
   status: string;
+  resume: { name: string; type: string; content: string } | null;
 }
 
 export default function LeadTable() {
@@ -74,6 +75,19 @@ export default function LeadTable() {
               <td className="px-4 py-2 border">{getCountryLabel(lead.country)}</td>
               <td className="px-4 py-2 border">{lead.message || "-"}</td>
               <td className="px-4 py-2 border">{lead.status}</td>
+              <td className="px-4 py-2 border">
+                {lead.resume ? (
+                  <a
+                    href={`data:${lead.resume.type};base64,${lead.resume.content}`}
+                    download={lead.resume.name}
+                    className="text-blue-500 underline"
+                  >
+                    Download CV
+                  </a>
+                ) : (
+                  "-"
+                )}
+              </td>
             </tr>
           ))}
         </tbody>
