@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { getCountryLabel } from "../data/countryCodes";
 
 interface Lead {
@@ -10,7 +11,7 @@ interface Lead {
   firstName: string;
   lastName: string;
   status: string;
-  countryOfCitizenship: string;
+  country: string;
   resume: { name: string; type: string; content: string } | null;
 }
 
@@ -18,6 +19,9 @@ export default function AdminPage() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const leadsPerPage = 10;
+  const router = useRouter();
 
   async function fetchLeads() {
     try {
@@ -65,6 +69,12 @@ export default function AdminPage() {
     );
   }
 
+  const totalPages = Math.ceil(leads.length / leadsPerPage);
+  const displayedLeads = leads.slice(
+    (currentPage - 1) * leadsPerPage,
+    currentPage * leadsPerPage
+  );
+
   return (
     <div className="flex min-h-screen bg-gray-50 text-gray-800">
       <aside className="w-64 bg-black text-white">
@@ -105,7 +115,7 @@ export default function AdminPage() {
               </tr>
             </thead>
             <tbody>
-              {leads.map((lead) => (
+              {displayedLeads.map((lead) => (
                 <tr key={lead.id} className="border-b hover:bg-gray-50">
                   <td className="px-4 py-3">
                     {lead.firstName} {lead.lastName}
@@ -128,7 +138,7 @@ export default function AdminPage() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    {getCountryLabel(lead.countryOfCitizenship)}
+                    {getCountryLabel(lead.country)}
                   </td>
                   <td className="px-4 py-3">
                     {lead.resume ? (
@@ -147,6 +157,25 @@ export default function AdminPage() {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex justify-end mt-4 items-center gap-4">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-4 py-2 bg-green-700 text-white rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-sm text-green-700">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="px-4 py-2 bg-green-700 text-white rounded disabled:opacity-50"
+          >
+            Next
+          </button>
         </div>
       </main>
     </div>
