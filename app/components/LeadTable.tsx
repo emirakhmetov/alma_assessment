@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { getCountryLabel } from "../data/countryCodes";
 
 interface Lead {
@@ -13,6 +12,7 @@ interface Lead {
   status: string;
   country: string;
   resume: { name: string; type: string; content: string } | null;
+  message: string
 }
 
 export default function LeadTable() {
@@ -76,7 +76,7 @@ export default function LeadTable() {
 
   return (
     <div className="flex min-h-screen bg-gray-50 text-gray-800">
-      <aside className="w-64 bg-black text-white">
+      <aside className="w-64 bg-[#D9DEA6] text-black">
         <div className="p-6 text-2xl font-bold border-b border-gray-700">alma</div>
         <nav className="p-6">
           <ul className="space-y-4">
@@ -110,6 +110,7 @@ export default function LeadTable() {
                 <th className="px-4 py-3 text-gray-500 uppercase text-xs font-medium">Submitted</th>
                 <th className="px-4 py-3 text-gray-500 uppercase text-xs font-medium">Status</th>
                 <th className="px-4 py-3 text-gray-500 uppercase text-xs font-medium">Country</th>
+                <th className = "px-4 py-3 text-gray-500 uppercase text-xs font-medium">Message</th>
                 <th className="px-4 py-3 text-gray-500 uppercase text-xs font-medium">CV</th>
               </tr>
             </thead>
@@ -139,6 +140,7 @@ export default function LeadTable() {
                   <td className="px-4 py-3">
                     {getCountryLabel(lead.country)}
                   </td>
+                  <td>{lead.message}</td>
                   <td className="px-4 py-3">
                     {lead.resume ? (
                       <a

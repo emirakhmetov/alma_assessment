@@ -106,9 +106,9 @@ export default function LeadForm() {
             </label>
           </div>
         </div>
-        <div className="flex flex-col items-center gap-y-5 text-xl font-bold">
+        <div className="flex flex-col items-center gap-y-5">
           <Image src="/heart.png" alt="heart image" width={60} height={50} />
-          <h1>How can we help you?</h1>
+          <h1 className = "text-xl font-bold">How can we help you?</h1>
           <textarea {...register("message")} className="border p-2 w-full rounded" rows={3}></textarea>
         </div>
         <button type="submit" disabled={isSubmitting} className="w-full bg-black text-white py-2 rounded hover:bg-blue-600 transition disabled:opacity-50 font-bold">
