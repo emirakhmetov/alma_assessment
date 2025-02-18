@@ -38,3 +38,7 @@ This project provides a public form for submitting leads, an admin panel for rev
     ```
     npm run dev
     http://localhost:3000/
+
+4. **Naviagate to admin page**
+    ```
+    go to http://localhost:3000/admin in order to view admin page
