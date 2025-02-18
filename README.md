@@ -23,8 +23,7 @@ This project provides a public form for submitting leads, an admin panel for rev
 
 1. **Clone the Repository:**
    ```
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
+   git clone https://github.com/emirakhmetov/alma_assessment.git
 
 2. **Install dependencies:**
     ```
@@ -36,3 +35,4 @@ This project provides a public form for submitting leads, an admin panel for rev
 4. **Run the Development Server**
     ```
     npm run dev
+    http://localhost:3000/
