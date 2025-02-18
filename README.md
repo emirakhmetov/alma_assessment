@@ -22,9 +22,9 @@ This project provides a public form for submitting leads, an admin panel for rev
 ## Running Locally
 
 1. **Clone the Repository:**
-   ```
+   ``` 
    git clone https://github.com/emirakhmetov/alma_assessment.git
-   cd cd alma_assessment/
+   cd alma_assessment/
 
 2. **Install dependencies:**
     ```
