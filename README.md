@@ -24,12 +24,14 @@ This project provides a public form for submitting leads, an admin panel for rev
 1. **Clone the Repository:**
    ```
    git clone https://github.com/emirakhmetov/alma_assessment.git
+   cd cd alma_assessment/
 
 2. **Install dependencies:**
     ```
     npm install
 3. **Set Up Environment Variables**
     ```
+    create .env.local in the app root directory with these env variables
     NEXTAUTH_URL=http://localhost:3000
     NEXTAUTH_SECRET=your-random-secret
 4. **Run the Development Server**
